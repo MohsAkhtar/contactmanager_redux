@@ -1,32 +1,16 @@
 import React, { Component } from 'react';
 import Contact from './Contact';
+import { connect } from 'react-redux';
+// when we have an action or bring in anything from redux state its called into prop
+import PropTypes from 'prop-types';
+import { getContacts } from '../../actions/contactActions';
 
 class Contacts extends Component {
-  state = {
-    contacts: [
-      {
-        id: 1,
-        name: 'John Doe',
-        email: 'john@gmail.com',
-        phone: '555-555-5555'
-      },
-      {
-        id: 2,
-        name: 'Karen Williams',
-        email: 'karen@gmail.com',
-        phone: '444-444-4444'
-      },
-      {
-        id: 3,
-        name: 'Henry Johnson',
-        email: 'henry@gmail.com',
-        phone: '333-333-333'
-      }
-    ]
-  };
-
+  componentDidMount() {
+    this.props.getContacts();
+  }
   render() {
-    const { contacts } = this.state;
+    const { contacts } = this.props;
     return (
       <React.Fragment>
         <h1 className="display-4 mb-2">
@@ -40,4 +24,21 @@ class Contacts extends Component {
   }
 }
 
-export default Contacts;
+Contacts.propTypes = {
+  contacts: PropTypes.array.isRequired,
+  getContacts: PropTypes.func.isRequired
+};
+
+// mapping contacts to this.state.contacts
+// so we're mapping state of redux to this local component
+const mapStateToProps = state => ({
+  contacts: state.contact.contacts
+});
+
+// We put two things inside connect, anything we want to map from
+// Redux state to the props inside a Component and any actions we
+// want to dispatch.
+export default connect(
+  mapStateToProps,
+  { getContacts }
+)(Contacts);
