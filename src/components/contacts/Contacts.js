@@ -6,11 +6,13 @@ import PropTypes from 'prop-types';
 import { getContacts } from '../../actions/contactActions';
 
 class Contacts extends Component {
+  // when we need to make our action calls when component is mounted
   componentDidMount() {
+    // once we call this we get our contacts and put them into our props
     this.props.getContacts();
   }
   render() {
-    const { contacts } = this.props;
+    const { contacts } = this.props; // we have access to this cos we are pulling from state below in 'mapStateToProps'
     return (
       <React.Fragment>
         <h1 className="display-4 mb-2">
